@@ -1,4 +1,4 @@
-#include "prst/shtc3.h"
+#include "shtc3.h"
 
 #include <app_error.h>
 #include <nrf_delay.h>

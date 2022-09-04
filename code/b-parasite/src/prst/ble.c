@@ -1,4 +1,4 @@
-#include "prst/ble.h"
+#include "ble.h"
 
 #include <ble_advdata.h>
 #include <ble_gap.h>

@@ -1,4 +1,4 @@
-#include "prst/adc.h"
+#include "adc.h"
 
 #include <app_error.h>
 #include <math.h>

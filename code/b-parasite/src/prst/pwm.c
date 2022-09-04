@@ -1,4 +1,4 @@
-#include "prst/pwm.h"
+#include "pwm.h"
 
 #include <app_error.h>
 #include <nordic_common.h>
