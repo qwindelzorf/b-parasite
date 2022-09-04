@@ -4,7 +4,7 @@
 #include <nrf_log.h>
 #include <nrf_log_ctrl.h>
 
-#include "prst_config.h"
+#include "../../config/prst_config.h"
 
 // RTC0 is used by softdevice, so we need to pick another instance.
 static const nrf_drv_rtc_t rtc_ = NRF_DRV_RTC_INSTANCE(2);

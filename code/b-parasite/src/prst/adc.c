@@ -7,7 +7,7 @@
 #include <nrf_saadc.h>
 #include <stdint.h>
 
-#include "prst_config.h"
+#include "../../config/prst_config.h"
 
 #define PRST_ADC_RESOLUTION 10
 

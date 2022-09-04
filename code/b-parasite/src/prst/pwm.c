@@ -6,7 +6,7 @@
 #include <nrf_log.h>
 #include <nrf_pwm.h>
 
-#include "prst_config.h"
+#include "../../config/prst_config.h"
 
 // Each step in the counter will take 1/16e6 s.
 #define PRST_PWM_BASE_FREQ NRF_PWM_CLK_16MHz

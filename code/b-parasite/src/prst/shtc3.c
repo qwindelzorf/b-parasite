@@ -6,7 +6,7 @@
 #include <nrf_log.h>
 #include <nrf_log_ctrl.h>
 
-#include "prst_config.h"
+#include "../../config/prst_config.h"
 
 static const nrf_drv_twi_t twi_ = NRF_DRV_TWI_INSTANCE(0);
 static nrf_drv_twi_config_t twi_config_ = NRF_DRV_TWI_DEFAULT_CONFIG;

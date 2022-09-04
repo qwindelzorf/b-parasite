@@ -8,7 +8,7 @@
 #include <nrf_sdh.h>
 #include <nrf_sdh_ble.h>
 
-#include "prst_config.h"
+#include "../../config/prst_config.h"
 
 // The connection to configure. We only have the one.
 #define PRST_CONN_CFG_TAG 1
