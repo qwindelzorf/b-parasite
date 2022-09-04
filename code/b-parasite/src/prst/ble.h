@@ -15,4 +15,4 @@ void prst_adv_stop();
 
 void prst_ble_update_adv_data(const prst_sensor_data_t* sensors);
 
-#endif  // _PRST_BLE_H_
+#endif // _PRST_BLE_H_

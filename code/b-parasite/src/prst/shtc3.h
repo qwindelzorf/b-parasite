@@ -14,13 +14,13 @@
 #define PRST_SHTC3_CMD_MEASURE_TFIRST_NORMAL 0x7866
 
 typedef struct prst_shtc3_values {
-  // Temperature in degrees Celsius.
-  float temp_celsius;
-  // Relative humidity, from 0 to 2^16.
-  uint16_t humidity;
+    // Temperature in degrees Celsius.
+    float temp_celsius;
+    // Relative humidity, from 0 to 2^16.
+    uint16_t humidity;
 } prst_shtc3_read_t;
 
 void prst_shtc3_init();
 prst_shtc3_read_t prst_shtc3_read();
 
-#endif  // _PRST_SHT3C_H_
+#endif // _PRST_SHT3C_H_

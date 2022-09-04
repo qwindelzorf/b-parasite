@@ -11,4 +11,4 @@ void prst_rtc_init();
 
 void prst_rtc_set_timer(uint16_t seconds);
 
-#endif  // _PRST_RTC_H_
+#endif // _PRST_RTC_H_

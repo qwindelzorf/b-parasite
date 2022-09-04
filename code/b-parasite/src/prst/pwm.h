@@ -7,4 +7,4 @@ void prst_pwm_start();
 
 void prst_pwm_stop();
 
-#endif  // _PRST_PWM_H_
+#endif // _PRST_PWM_H_
