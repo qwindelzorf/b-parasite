@@ -1,3 +1,12 @@
+SDK_ROOT ?= $(HOME)/code/nRF5_SDK_17.1.0_ddde560
+GNU_INSTALL_ROOT ?= /usr/bin/
+GNU_VERSION ?= 9.2.1
+
+ifndef MAKEFLAGS
+CPUS ?= $(shell nproc)
+MAKEFLAGS += -j $(CPUS) -l $(CPUS) -s
+endif
+
 # Supported platforms:
 # * E73_2G4M08S1C (nrf2480, default)
 # * E73_2G4M08S1E (nrf2833) 
@@ -294,30 +303,50 @@ help:
 	@echo		flash_softdevice
 	@echo		sdk_config - starting external tool for editing sdk_config.h
 	@echo		flash      - flashing binary
+	@echo		unlock     - unlock locked NRF52
 
 TEMPLATE_PATH := $(SDK_ROOT)/components/toolchain/gcc
 
+OOCD_PROG := /usr/local/bin/openocd
+OOCD_OPTS := -s /usr/local/share/openocd/scripts \
+              -f interface/stlink-v2.cfg \
+              -f target/nrf52.cfg -c init \
+              -c "init;"
+OOCD = $(OOCD_PROG) $(OOCD_OPTS)
+
+AGDB_PROG := /usr/bin/gdb-multiarch
+AGDB_OPTS := -nx --batch \
+             -ex 'target extended-remote /dev/ttyBmpGdb' \
+             -ex 'monitor swdp_scan' \
+             -ex 'attach 1'
+AGDB = $(AGDB_PROG) $(AGDB_OPTS)
 
 include $(TEMPLATE_PATH)/Makefile.common
 
 $(foreach target, $(TARGETS), $(call define_target, $(target)))
 
-.PHONY: flash flash_softdevice erase
+.PHONY: flash flash_softdevice erase unlock
 
 # Flash the program
-flash: default
+flash: $(OUTPUT_DIRECTORY)/$(TARGETS).hex
 	@echo Flashing: $(OUTPUT_DIRECTORY)/$(TARGETS).hex
-	nrfjprog -f nrf52 --program $(OUTPUT_DIRECTORY)/$(TARGETS).hex --sectorerase
-	nrfjprog -f nrf52 --reset
+	#$(OOCD) -c "program $(OUTPUT_DIRECTORY)/$(TARGETS).hex verify reset; exit;"
+	$(AGDB) -ex 'load' -ex 'compare-sections' -ex 'kill' $(OUTPUT_DIRECTORY)/$(TARGETS).hex
 
 # Flash softdevice
 flash_softdevice:
 	@echo Flashing: s140_nrf52_7.2.0_softdevice.hex
-	nrfjprog -f nrf52 --program $(SDK_ROOT)/components/softdevice/s140/hex/s140_nrf52_7.2.0_softdevice.hex --sectorerase
-	nrfjprog -f nrf52 --reset
+	#$(OOCD) -c "program $(SDK_ROOT)/components/softdevice/s140/hex/s140_nrf52_7.2.0_softdevice.hex verify reset; exit;"
+	$(AGDB) -ex 'load' -ex 'compare-sections' -ex 'kill' $(SDK_ROOT)/components/softdevice/s140/hex/s140_nrf52_7.2.0_softdevice.hex
 
 erase:
-	nrfjprog -f nrf52 --eraseall
+	#$(OOCD) -c "eraseall; reset; exit;"
+	$(AGDB) -ex 'monitor erase_mass' -ex 'kill'
+
+unlock:
+	# Does not work with stlink
+	#$(OOCD) -c "nrf52.cpu dap apreg 1 0x04 0x01; reset; exit;"
+	$(AGDB) -ex 'monitor erase_mass' -ex 'kill'
 
 SDK_CONFIG_FILE := ../config/sdk_config.h
 CMSIS_CONFIG_TOOL := $(SDK_ROOT)/external_tools/cmsisconfig/CMSIS_Configuration_Wizard.jar
