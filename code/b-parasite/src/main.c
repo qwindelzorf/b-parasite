@@ -46,7 +46,7 @@ static void power_management_init(void) {
 }
 
 // This FPU exception mask trick is recommended for avoiding unwanted
-// interupts from the floating point unit. This would be pretty bad,
+// interrupts from the floating point unit. This would be pretty bad,
 // since it would wake us up from deep sleep for nothing.
 #define FPU_EXCEPTION_MASK 0x0000009F
 static void power_manage(void) {
@@ -62,7 +62,7 @@ static void power_manage(void) {
 // - Measure the air temperature and humidity;
 // - Encode the measurements into the BLE advertisement packet;
 // - Turn on BLE advertising for a while;
-// - Turn everything off and return back to sleep.
+// - Turn everything off and return to sleep.
 static void rtc_callback() {
 #if PRST_BLINK_LED
   nrf_gpio_pin_set(PRST_LED_PIN);
@@ -132,7 +132,7 @@ int main(void) {
   prst_rtc_set_callback(rtc_callback);
   prst_rtc_init();
 
-  // In addition to scheduling it, let's immediatelly call it - it makes
+  // In addition to scheduling it, let's immediately call it - it makes
   // debugging less tedious.
   rtc_callback();
 

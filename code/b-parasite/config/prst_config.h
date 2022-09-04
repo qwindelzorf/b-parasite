@@ -3,14 +3,14 @@
 
 #include "nrf_gpio.h"
 // Some configurations are version-specific. Uncomment the line corresponding
-// the the version you're programming. The version can be found on the
+// the version you're programming. The version can be found on the
 // b-parasite board.
 // #define PRST_VERSION_1_0_X
 // #define PRST_VERSION_1_1_X
 #define PRST_VERSION_1_2_X
 
 // Built-in LED.
-// Wether or not to turn the LED on/off during the wake-up cycle. Impacts
+// Weather or not to turn the LED on/off during the wake-up cycle. Impacts
 // battery life.
 #define PRST_BLINK_LED 0
 #define PRST_LED_PIN NRF_GPIO_PIN_MAP(0, 28)
