@@ -24,7 +24,7 @@ static void write_cmd(uint16_t command) {
 void prst_shtc3_init() {
   twi_config_.scl = PRST_SHT3C_SCL_PIN;
   twi_config_.sda = PRST_SHT3C_SDA_PIN;
-  twi_config_.frequency = NRF_TWI_FREQ_100K;
+  twi_config_.frequency = NRF_DRV_TWI_FREQ_100K;
 }
 
 prst_shtc3_read_t prst_shtc3_read() {
