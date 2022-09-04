@@ -13,7 +13,7 @@
 #include "prst/pwm.h"
 #include "prst/rtc.h"
 #include "prst/shtc3.h"
-#include "prst_config.h"
+#include "../config/prst_config.h"
 
 // A small wrap-around counter for deduplicating BLE packets on the receiver.
 static uint8_t run_counter = 0;

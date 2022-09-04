@@ -4,7 +4,7 @@
 #include <app_error.h>
 #include <stdint.h>
 
-#include "prst/data.h"
+#include "data.h"
 
 // Initializes SoftDevice.
 void prst_ble_init();
