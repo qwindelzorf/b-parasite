@@ -247,7 +247,6 @@ CFLAGS += -DSOFTDEVICE_PRESENT
 CFLAGS += -DDEBUG
 # Setting -DDEBUG prints info via JLkinkRTTLogger, but hides the stack trace
 # when debugging with VSCode's Cortex Debug extension.
-# CFLAGS += -DDEBUG
 CFLAGS += -mcpu=cortex-m4
 CFLAGS += -mthumb -mabi=aapcs
 CFLAGS += -Wall -Werror -Wno-maybe-uninitialized
@@ -325,24 +324,26 @@ include $(TEMPLATE_PATH)/Makefile.common
 
 $(foreach target, $(TARGETS), $(call define_target, $(target)))
 
-.PHONY: flash flash_softdevice erase unlock
-
 # Flash the program
+.PHONY: flash
 flash: $(OUTPUT_DIRECTORY)/$(TARGETS).hex
 	@echo Flashing: $(OUTPUT_DIRECTORY)/$(TARGETS).hex
 	#$(OOCD) -c "program $(OUTPUT_DIRECTORY)/$(TARGETS).hex verify reset; exit;"
 	$(AGDB) -ex 'load' -ex 'compare-sections' -ex 'kill' $(OUTPUT_DIRECTORY)/$(TARGETS).hex
 
 # Flash softdevice
+.PHONY: flash_softdevice
 flash_softdevice:
 	@echo Flashing: s140_nrf52_7.2.0_softdevice.hex
 	#$(OOCD) -c "program $(SDK_ROOT)/components/softdevice/s140/hex/s140_nrf52_7.2.0_softdevice.hex verify reset; exit;"
 	$(AGDB) -ex 'load' -ex 'compare-sections' -ex 'kill' $(SDK_ROOT)/components/softdevice/s140/hex/s140_nrf52_7.2.0_softdevice.hex
 
+.PHONY: erase
 erase:
 	#$(OOCD) -c "eraseall; reset; exit;"
 	$(AGDB) -ex 'monitor erase_mass' -ex 'kill'
 
+.PHONY: unlock
 unlock:
 	# Does not work with stlink
 	#$(OOCD) -c "nrf52.cpu dap apreg 1 0x04 0x01; reset; exit;"
