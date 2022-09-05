@@ -60,8 +60,7 @@ static void power_manage(void)
     nrf_pwr_mgmt_run();
 }
 
-// This is the RTC callback in which we do all of our work as quickly as
-// possible:
+// This is the RTC callback in which we do all of our work as quickly as possible:
 // - Measure the soil moisture;
 // - Measure the air temperature and humidity;
 // - Encode the measurements into the BLE advertisement packet;
@@ -73,7 +72,8 @@ static void rtc_callback()
     nrf_gpio_pin_set(PRST_LED_PIN);
 #endif
 
-    if (state == SLEEPING) {
+    switch (state) {
+    case SLEEPING: {
         prst_shtc3_read_t temp_humi = prst_shtc3_read();
         nrf_gpio_pin_set(PRST_FAST_DISCH_PIN);
         prst_pwm_init();
@@ -107,10 +107,14 @@ static void rtc_callback()
         prst_adv_start();
         prst_rtc_set_timer(PRST_BLE_ADV_TIME_IN_S);
         run_counter++;
-    } else if (state == ADVERTISING) {
+        break;
+    }
+    case ADVERTISING: {
         prst_adv_stop();
         state = SLEEPING;
         prst_rtc_set_timer(PRST_DEEP_SLEEP_IN_SECONDS);
+        break;
+    }
     }
 #if PRST_BLINK_LED
     nrf_gpio_pin_clear(PRST_LED_PIN);
