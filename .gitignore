@@ -1,6 +1,5 @@
 built_fw/
 *.swp
-.vscode
 .idea
 .gdb_history
 .DS_Store
